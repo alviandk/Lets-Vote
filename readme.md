@@ -68,13 +68,12 @@ The server will start, and you can access the API at `http://127.0.0.1:8000/`.
 
 ### API Endpoints
 
--   List all votes: `GET /api/votes/`
--   Retrieve a vote: `GET /api/votes/<vote_id>/`
--   Create a vote: `POST /api/votes/`
--   Update a vote: `PUT /api/votes/<vote_id>/`
--   Delete a vote: `DELETE /api/votes/<vote_id>/`
+-   List all votes detail: `GET /api/`
+-   Retrieve a vote: `GET /api/result/<vote_id>/`
+-   Create a vote: 
+    -   `POST /api/votes/<vote_id>/`
+    -   Body: `choice_id`
 
-... [continue with other endpoints as necessary]
 
 ### Testing
 

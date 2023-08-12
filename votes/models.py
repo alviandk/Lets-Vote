@@ -14,8 +14,33 @@ class BaseModel(models.Model):
         abstract = True
 
 
+class QuestionQuerySet(models.QuerySet):
+
+    def with_choices(self):
+        # Using prefetch_related for optimized database queries
+        return self.prefetch_related('choice_set')
+
+    def to_dict_list(self):
+        questions = self.with_choices()
+        result = []
+
+        for question in questions:
+            choices = [{"text": choice.text, "id": choice.id} for choice in question.choice_set.all()]
+            question_dict = {
+                "question": {
+                    "text": question.text,
+                    "id": question.id,
+                    "choices": choices
+                }
+            }
+            result.append(question_dict)
+
+        return result
+
+
 class Question(BaseModel):
     text = models.CharField(max_length=255)
+    objects = QuestionQuerySet.as_manager()
 
     def __str__(self):
         return f'{self.id}: {self.text}'
@@ -33,7 +58,11 @@ class Question(BaseModel):
                 F('votes_for_choice') * 100.0 / F('total_votes_for_question'),
                 output_field=FloatField()
             )
-        ).values_list('text', 'percentage')
+        ).values(
+            'text', 
+            'percentage', 
+            # 'id', 
+            'votes_for_choice')
 
         return list(choices)
 
