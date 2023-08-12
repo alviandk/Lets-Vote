@@ -40,20 +40,19 @@ Let's Vote is an API built with Django and Django REST framework, backed by a Po
         
         `createdb lets_vote_db` 
         
-    -   Update `DATABASES` setting in `settings.py` (or `local_settings.py` if you have it separated):
+    -   Create a .env File:
         
+        In the root of your Django project, create a `.env` file with the following content:
+
         ```
-        DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.postgresql',
-                'NAME': 'lets_vote_db',
-                'USER': 'yourdbuser',
-                'PASSWORD': 'yourdbpassword',
-                'HOST': 'localhost',
-                'PORT': '5432',
-            }
-        }
-        ``` 
+        DEBUG=True
+        SECRET_KEY=your-secret-key
+        DB_NAME=your-database-name
+        DB_USER=your-database-user
+        DB_PASSWORD=your-database-password
+        DB_HOST=your-database-host
+        DB_PORT=your-database-port
+        ```
         
 5.  **Run Migrations**
         
