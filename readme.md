@@ -46,6 +46,7 @@ Let's Vote is an API built with Django and Django REST framework, backed by a Po
 
         ```
         DEBUG=True
+        USE_POSTGRE=True
         SECRET_KEY=your-secret-key
         DB_NAME=your-database-name
         DB_USER=your-database-user
