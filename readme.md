@@ -1,6 +1,7 @@
 
 ## Let's Vote Backend Application
 
+
 Let's Vote is an API built with Django and Django REST framework, backed by a PostgreSQL database, designed to manage voting processes with ease.
 
 ### Prerequisites
