@@ -1,0 +1,24 @@
+name: 'Deploy Cloudrun'
+on:
+  push:
+    branches:
+    - 'main'
+jobs:
+  run:
+    name: 'Deploy to Cloudrun'
+    permissions:
+      id-token: write
+      contents: read
+    runs-on: 'ubuntu-latest'
+    steps:
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v1'
+      with:
+        token_format: 'access_token'
+        workload_identity_provider: ${{ secrets.PROVIDER_NAME }}
+        service_account: ${{ secrets.SA_EMAIL }}
+    - id: 'deploy'
+      uses: 'google-github-actions/deploy-cloudrun@v1'
+      with:
+        service: 'lets-vote'
+        source: '.'
