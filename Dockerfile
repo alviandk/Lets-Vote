@@ -1,26 +1,21 @@
-# Use an official Python runtime as the parent image
 FROM python:3.11-slim
 
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
+ENV APP_HOME /app
+WORKDIR $APP_HOME
+
+# Removes output stream buffering, allowing for more efficient logging
 ENV PYTHONUNBUFFERED 1
 
-# Create and set the working directory
-WORKDIR /app
+# Install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Install system dependencies
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends gcc libpq-dev \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install Python dependencies
-COPY requirements.txt /app/
-RUN pip install --upgrade pip \
-    && pip install -r requirements.txt
-
-# Copy the content of the local src directory to the working directory
+# Copy local code to the container image.
 COPY . .
 
-# Specify the command to run on container start
+# Run the web service on container startup. Here we use the gunicorn
+# webserver, with one worker process and 8 threads.
+# For environments with multiple CPU cores, increase the number of workers
+# to be equal to the cores available.
+# Timeout is set to 0 to disable the timeouts of the workers to allow Cloud Run to handle instance scaling.
 CMD exec gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 8 --timeout 0 lets_vote.wsgi:application
