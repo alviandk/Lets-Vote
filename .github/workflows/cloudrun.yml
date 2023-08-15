@@ -21,3 +21,6 @@ jobs:
       with:
         service: 'lets-vote'
         source: '.'
+        env_vars: |
+          SECRET_KEY=${{ secrets.SECRET_KEY }}
+
