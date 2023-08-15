@@ -1,0 +1,13 @@
+steps:
+# Build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'asia-southeast2-docker.pkg.dev/asia-southeast2-docker.pkg.dev/alviandk/lets-vote', '.']
+# Push the container image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'asia-southeast2-docker.pkg.dev/asia-southeast2-docker.pkg.dev/alviandk/lets-vote']
+# Deploy container image to Cloud Run
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args: ['run', 'deploy', 'lets-vote', '--image', 'asia-southeast2-docker.pkg.dev/asia-southeast2-docker.pkg.dev/alviandk/lets-vote']
+images:
+  - asia-southeast2-docker.pkg.dev/asia-southeast2-docker.pkg.dev/alviandk/lets-vote
