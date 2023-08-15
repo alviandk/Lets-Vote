@@ -1,5 +1,5 @@
 # Use an official Python runtime as the parent image
-FROM python:3.8.0
+FROM python:3.11-slim
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -23,4 +23,4 @@ RUN pip install --upgrade pip \
 COPY . .
 
 # Specify the command to run on container start
-CMD ["gunicorn", "lets_vote.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD exec gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 8 --timeout 0 lets_vote.wsgi:application
